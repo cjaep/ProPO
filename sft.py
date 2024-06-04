@@ -121,7 +121,7 @@ def create_datasets(tokenizer, args, seed=None):
     if "cnn" in script_args.dataset_name:
         dataset = load_dataset(
             args.dataset_name,
-            "2.0.0",
+            "3.0.0",
             split=args.split,
             use_auth_token=True,
             num_proc=args.num_workers if not args.streaming else None,

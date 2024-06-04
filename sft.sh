@@ -1,9 +1,9 @@
 #!/bin/bash
 
-CUDA_VISIBLE_DEVICES=1 taskset -c 0-7 python ./sft.py \
+CUDA_VISIBLE_DEVICES=0 taskset -c 0-7 python ./sft.py \
     --model_name="mistralai/Mistral-7B-v0.1" \
-    --output_dir="./models/sft_mistral_cnn" \
-    --dataset_name="abisee/cnn_dailymail" \
+    --output_dir="./models/sft_mistral_tldr" \
+    --dataset_name="CarperAI/openai_summarize_tldr" \
     --max_steps=500 \
     --logging_steps=10 \
     --save_steps=10 \
@@ -23,6 +23,6 @@ CUDA_VISIBLE_DEVICES=1 taskset -c 0-7 python ./sft.py \
     --report_to="wandb" \
     # --model_name="meta-llama/Llama-2-7b-hf" \
     # --model_name="mistralai/Mistral-7B-v0.1" \
-    # --dataset_name="abisee/cnn_dailymail" \
-    # --dataset_name="CarperAI/openai_summarize_tldr"
+    # --dataset_name="EdinburghNLP/xsum" \
+    # --dataset_name="CarperAI/openai_summarize_tldr" \
     
