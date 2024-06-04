@@ -6,7 +6,6 @@ conda create -n ProPO python=3.8 -y
 
 conda activate ProPO
 pip install torch torchvision torchaudio
-
 pip install datasets evaluate rouge-score nltk
 ```
 
