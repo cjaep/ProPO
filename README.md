@@ -12,7 +12,7 @@ pip install datasets evaluate rouge-score nltk
 
 
 
-## Supervised Fine-Tuning
+## SFT
 Please refer to the code example below for instructions on how to run the code.
 
 ```sh
@@ -39,6 +39,34 @@ CUDA_VISIBLE_DEVICES=0 taskset -c 0-7 python ./sft.py \
     --report_to="wandb" \
 ```
 
+## DPO
+```sh
+CUDA_VISIBLE_DEVICES=0 taskset -c 0-7 python dpo.py \
+    --rejected_file="${REJECTED_FILE}" \
+    --chosen_file="${CHOSEN_FILE}" \
+    --model_name_or_path="models/${BASE_MODEL}" \
+    --output_dir="models/${TARGET_MODEL}" \
+    --beta=0.5 \
+    --learning_rate=1e-4 \
+    --warmup_steps=150 \
+    --max_length=2048 \
+    --max_prompt_length=2000 \
+    --num_train_epochs=1 \
+    --per_device_train_batch_size=4 \
+    --gradient_accumulation_steps=4 \
+```
+
+## Summarization
+```sh
+CUDA_VISIBLE_DEVICES=0 taskset -c 0-7 python summarization.py \
+    --output_file="${FOLDER}/${DATE}_${TARGET_MODEL}_${SPLIT}_${DECODING_TYPE}" \
+    --decoding_type="${DECODING_TYPE}" \
+    --model="models/${TARGET_MODEL}/final_checkpoint" \
+    --tokenizer_model="${TOKENIZER_MODEL}" \
+    --batch_size=1 \
+    --dataset="${DATASET}" \
+    --split="${SPLIT}" \
+```
 
 ## Evaluation
 
@@ -48,22 +76,10 @@ To perform evaluation, you need to install the metrics.
 
 
 ```bash
-CUDA_VISIBLE_DEVICES=0 taskset -c 0-7 python evaluation.py \
-    --input_file "results/{OUTPUT_FILE}.json" \
-    --output_file "results/evaluation.json" \
+CUDA_VISIBLE_DEVICES=0 taskset -c 0-7 python ../../dcpmi/evaluation.py \
+    --input_file "${FOLDER}/${DATE}_${TARGET_MODEL}_${SPLIT}_${DECODING_TYPE}.json" \
+    --output_file "${FOLDER}/evaluation.json" \
     --batch_size 16 \
     --alignscore_ckpt "{PATH_TO_ALIGNSCORECKPT}" \
 ```
 
-
-# Citation
-```
-@inproceedings{
-chae2024mitigating,
-title={Mitigating Hallucination in Abstractive Summarization with Domain-Conditional Mutual Information},
-author={Kyubyung Chae and Jaepill choi and Yohan Jo and Taesup Kim},
-booktitle={2024 Annual Conference of the North American Chapter of the Association for Computational Linguistics},
-year={2024},
-url={https://openreview.net/forum?id=N5gW9kxJ7Z}
-}
-```
