@@ -12,7 +12,7 @@ pip install datasets evaluate rouge-score nltk
 
 
 ## SFT
-Please refer to the code example below for instructions on how to run the code.
+The implementation follows an example from https://github.com/huggingface/trl/tree/main/examples/research_projects/stack_llama_2/scripts
 
 ```sh
 CUDA_VISIBLE_DEVICES=0 taskset -c 0-7 python ./sft.py \
